@@ -11,7 +11,9 @@ import LoginPage from './components/LoginPage/LoginPage';
 import RegisterPage from './components/RegisterPage/RegisterPage';
 import UserPage from './components/UserPage/UserPage';
 import InfoPage from './components/InfoPage/InfoPage';
-
+import AddProduct from './components/AddProduct/AddProduct';
+import AddLocation from './components/AddLocation/AddLocation';
+import CreateMarketDay from './components/CreateMarketDay/CreateMarketDay';
 import './styles/main.css';
 
 const App = () => (
@@ -35,6 +37,18 @@ const App = () => (
         <Route
           path="/info"
           component={InfoPage}
+        />
+        <Route
+          path="/AddProduct"
+          component={AddProduct}
+        />
+        <Route
+          path="/AddLocation"
+          component={AddLocation}
+        />
+        <Route
+          path="/CreateMarketDay"
+          component={CreateMarketDay}
         />
         {/* OTHERWISE (no path!) */}
         <Route render={() => <h1>404</h1>} />
