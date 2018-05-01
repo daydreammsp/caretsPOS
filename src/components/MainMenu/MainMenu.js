@@ -48,16 +48,15 @@ class MainMenu extends React.Component {
     // this.props.history.push('home');
   }
   render() {
-    const { classes } = this.props;
+    // const { classes } = this.props;
 
     const sideList = (
       <div className={styles.list}>
       
         <List> 
         <Link to="/AddProduct">
-           <h2>Add Product</h2>
+           <h2>Transactions</h2>
           </Link>
-        
         </List>
         <Divider />
         <List>
@@ -68,6 +67,11 @@ class MainMenu extends React.Component {
         <List>
         <Link to="/CreateMarketDay">
            <h2>Create Market Day</h2>
+          </Link></List>
+        <Divider />
+        <List>
+        <Link to="/ActualAddProduct">
+           <h2>ActualAddProduct</h2>
           </Link></List>
         <Divider />
         <List>

@@ -14,6 +14,7 @@ import InfoPage from './components/InfoPage/InfoPage';
 import AddProduct from './components/AddProduct/AddProduct';
 import AddLocation from './components/AddLocation/AddLocation';
 import CreateMarketDay from './components/CreateMarketDay/CreateMarketDay';
+import ActualAddProduct from './components/ActualAddProduct/ActualAddProduct';
 import './styles/main.css';
 
 const App = () => (
@@ -50,6 +51,10 @@ const App = () => (
         <Route
           path="/CreateMarketDay"
           component={CreateMarketDay}
+        />
+        <Route
+          path="/ActualAddProduct"
+          component={ActualAddProduct}
         />
         {/* OTHERWISE (no path!) */}
         <Route render={() => <h1>404</h1>} />
