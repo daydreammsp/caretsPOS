@@ -20,6 +20,7 @@ const App = () => (
   <div>
     <Header title="Project Base" />
     <Router>
+    
       <Switch>
         <Redirect exact from="/" to="/home" />
         <Route

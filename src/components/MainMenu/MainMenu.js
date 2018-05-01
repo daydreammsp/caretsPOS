@@ -1,97 +1,97 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { withStyles } from 'material-ui/styles';
-import List, { ListItem, ListItemText } from 'material-ui/List';
-import Menu, { MenuItem } from 'material-ui/Menu';
+import Drawer from 'material-ui/Drawer';
+import Button from 'material-ui/Button';
+import List from 'material-ui/List';
+import Divider from 'material-ui/Divider';
+import Typography from 'material-ui/Typography';
+import IconButton from 'material-ui/IconButton';
+import { Link } from 'react-router-dom';
 import { USER_ACTIONS } from '../../redux/actions/userActions';
 import { triggerLogout } from '../../redux/actions/loginActions';
-import { connect } from 'react-redux';
 
-
-const styles = theme => ({
-  root: {
-    width: '30%',
-    maxWidth: 200,
-    
-  },
+const mapStateToProps = state => ({
+  user: state.user,
 });
 
-const options = [
-  'Add Product',
-  'Add Location',
-  'Create Market',
-  'Previous Markets',
-  'Log Out',
-];
+const styles = {
+  list: {
+    width: 250,
+    padding: 8,
+  },
+  largeIcon: {
+    width: 60,
+    height: 60,
+  },
+};
 
 class MainMenu extends React.Component {
+  constructor(props){
+    super(props)
+  }
   state = {
-    anchorEl: null,
-    selectedIndex: 1,
+    top: false,
+    left: false,
+    bottom: false,
+    right: false,
   };
 
-  button = undefined;
-
-  handleClickListItem = event => {
-    this.setState({ anchorEl: event.currentTarget });
+  toggleDrawer = (side, open) => () => {
+    this.setState({
+      [side]: open,
+    });
   };
-
-  handleMenuItemClick = (event, index) => {
-    this.setState({ selectedIndex: index, anchorEl: null });
-  };
-
-  handleClose = () => {
-    this.setState({ anchorEl: null });
-  };
-
   logout = () => {
     this.props.dispatch(triggerLogout());
     // this.props.history.push('home');
   }
-
   render() {
     const { classes } = this.props;
-    const { anchorEl } = this.state;
+
+    const sideList = (
+      <div className={styles.list}>
+      
+        <List> 
+        <Link to="/AddProduct">
+           <h2>Add Product</h2>
+          </Link>
+        
+        </List>
+        <Divider />
+        <List>
+        <Link to="/AddLocation">
+           <h2>Add Location</h2>
+          </Link></List>
+        <Divider />
+        <List>
+        <Link to="/CreateMarketDay">
+           <h2>Create Market Day</h2>
+          </Link></List>
+        <Divider />
+        <List>
+          <h2 onClick={()=>{this.logout()}}>Logout</h2></List>
+      </div>
+    );
+
+    
 
     return (
-      <div className={classes.root}>
-        <List component="nav">
-          <ListItem
-            button
-            aria-haspopup="true"
-            aria-controls="lock-menu"
-            aria-label="When device is locked"
-            onClick={this.handleClickListItem}
+      <div>
+        <i className="material-icons md-48">menu</i>
+        <Button onClick={this.toggleDrawer('left', true)}>
+        <h1>Caret^s</h1></Button>
+        <Drawer open={this.state.left} onClose={this.toggleDrawer('left', false)}>
+          <div
+            tabIndex={0}
+            role="button"
+            onClick={this.toggleDrawer('left', false)}
+            onKeyDown={this.toggleDrawer('left', false)}
           >
-            <ListItemText
-              primary="Menu"
-              secondary={options[this.state.selectedIndex]}
-            />
-          </ListItem>
-          <ListItem>
-          
-          
-          </ListItem>
-        </List>
-        <Menu
-          id="lock-menu"
-          anchorEl={anchorEl}
-          open={Boolean(anchorEl)}
-          onClose={this.handleClose}
-        >
-          {options.map((option, index) => (
-            <MenuItem
-              key={option}
-              disabled={index === 0}
-              selected={index === this.state.selectedIndex}
-              onClick={event => this.handleMenuItemClick(event, index)}
-            >
-              {option}
-            </MenuItem>
-           
-           
-          ))}
-        </Menu>
+            {sideList}
+          </div>
+        </Drawer>
       </div>
     );
   }
@@ -100,5 +100,4 @@ class MainMenu extends React.Component {
 MainMenu.propTypes = {
   classes: PropTypes.object.isRequired,
 };
-
-export default withStyles(styles)(MainMenu);
+export default (withStyles(styles), connect(mapStateToProps) (MainMenu));

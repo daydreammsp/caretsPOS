@@ -1,10 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import MainMenu from '../MainMenu/MainMenu'
 
 const Nav = () => (
   <div className="navbar">
     <div>
-      <ul>
+    <MainMenu></MainMenu>
+      {/* <ul>
         <li>
           <Link to="/user">
             Home
@@ -19,13 +21,13 @@ const Nav = () => (
           <Link to="/AddLocation">
            Add Location
           </Link>
-        </li>
-        <li>
+        </li> */}
+        {/* <li>
           <Link to="/CreateMarketDay">
            Create Market Day
           </Link>
-        </li>
-      </ul>
+        </li> */}
+      {/* </ul> */}
     </div>
   </div>
 );
