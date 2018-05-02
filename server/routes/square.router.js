@@ -80,7 +80,7 @@ router.get('/get', (req, res) => {
             //     country: 'US',
             //     first_name: 'Jane',
             //     last_name: 'Doe' },
-             redirect_url: 'http://localhost:3000/AddProduct' },
+             redirect_url: 'http://localhost:3000/Checkout' },
           json: true };
         
         request(options, function (error, response, body) {

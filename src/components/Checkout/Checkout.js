@@ -7,6 +7,7 @@ import Button from 'material-ui/Button';
 import PropTypes from 'prop-types';
 import { withStyles } from 'material-ui/styles';
 import compose from 'recompose/compose';
+import NumberFormat from 'react-number-format';
 
 
 const styles = theme => ({
@@ -28,7 +29,7 @@ const mapStateToProps = state => ({
 class Checkout extends React.Component {
 
     state = {
-        amount: ''
+        amount: 0
       }
 
       
@@ -49,14 +50,14 @@ class Checkout extends React.Component {
           this.props.history.push('home');
         }
       }
-      handleAmountChange = (inputText) => {
-        return (event) => {
-          console.log(inputText)
-          this.setState({
-            [inputText]: event.target.value
-          });
-        }
-      }
+      // handleAmountChange = (inputText) => {
+      //   return (event) => {
+      //     console.log(inputText)
+      //     this.setState({
+      //       [inputText]: event.target.value
+      //     });
+      //   }
+      // }
       handleClick = () => {
         console.log('clicked!', this.state.amount)
         this.props.dispatch({
@@ -68,15 +69,24 @@ class Checkout extends React.Component {
       handleCashClick = () =>{
         console.log("click")
       }
+      handlePriceClick = (price) =>{
+         this.state.amount = this.state.amount + price
+        console.log("click price", this.state.amount)
+        this.setState({
+         amount: this.state.amount
+             });
+      }
+
     render() {
       
       const { classes } = this.props;
       
       let listProducts = this.props.products.map( (product) => {
         return(
-           <div> <span>{product.item_data.name}</span> 
-           <strong>{product.item_data.variations[0].item_variation_data.price_money.amount}</strong>
-                
+           <div> <Button variant="raised" color="primary" className={classes.button} 
+           onClick={()=>this.handlePriceClick(product.item_data.variations[0].item_variation_data.price_money.amount)}><div>{product.item_data.name} 
+           {(product.item_data.variations[0].item_variation_data.price_money.amount).toFixed(2)}</div>
+                </Button>
            </div>
         )
       })
@@ -87,13 +97,14 @@ class Checkout extends React.Component {
           content = (
             <div>
               <h2>Checkout</h2>
-              <input type='text'
+              <NumberFormat value={((this.state.amount/100).toFixed(2))} displayType={'text'} 
+              
+              thousandSeparator={true} prefix={'$'}
+              renderText={value => <div>{value}</div>} />
+              {/* <h1>{this.state.amount}</h1> */}
+              {/* <input type='text'
             placeholder='amount'
-            onChange={this.handleAmountChange('amount')}></input><br></br>
-          {/* <input type='text'
-            placeholder='absolute url'
-            onChange={this.handleImgChange('image_url')}></input> */}
-            
+            onChange={this.handleAmountChange('amount')}></input><br></br> */}
           <Button variant="raised" className={classes.button} onClick={this.handleCashClick}>Cash</Button>
           <Button variant="raised" className={classes .button} onClick={this.handleClick}>Credit</Button>
           {listProducts}
