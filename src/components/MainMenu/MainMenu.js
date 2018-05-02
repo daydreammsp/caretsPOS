@@ -11,6 +11,7 @@ import IconButton from 'material-ui/IconButton';
 import { Link } from 'react-router-dom';
 import { USER_ACTIONS } from '../../redux/actions/userActions';
 import { triggerLogout } from '../../redux/actions/loginActions';
+import compose from 'recompose/compose';
 
 const mapStateToProps = state => ({
   user: state.user,
@@ -18,7 +19,7 @@ const mapStateToProps = state => ({
 
 const styles = {
   list: {
-    width: 250,
+    minwidth: 250,
     padding: 8,
   },
   largeIcon: {
@@ -48,14 +49,14 @@ class MainMenu extends React.Component {
     // this.props.history.push('home');
   }
   render() {
-    // const { classes } = this.props;
+    const { classes } = this.props;
 
     const sideList = (
-      <div className={styles.list}>
+      <div className={classes.list}>
       
         <List> 
-        <Link to="/AddProduct">
-           <h2>Transactions</h2>
+        <Link to="/Checkout">
+           <h2>Checkout</h2>
           </Link>
         </List>
         <Divider />
@@ -104,4 +105,8 @@ class MainMenu extends React.Component {
 MainMenu.propTypes = {
   classes: PropTypes.object.isRequired,
 };
-export default (withStyles(styles), connect(mapStateToProps) (MainMenu));
+// export default (withStyles(styles), connect(mapStateToProps) (MainMenu));
+export default compose(
+  withStyles(styles, { name: 'MainMenu' }),
+  connect(mapStateToProps)
+)(MainMenu);

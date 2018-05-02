@@ -3,13 +3,29 @@ import MainMenu from '../MainMenu/MainMenu';
 import Nav from '../../components/Nav/Nav';
 import { connect } from 'react-redux';
 import { USER_ACTIONS } from '../../redux/actions/userActions';
+import Button from 'material-ui/Button';
+import PropTypes from 'prop-types';
+import { withStyles } from 'material-ui/styles';
+import compose from 'recompose/compose';
+
+
+const styles = theme => ({
+  button: {
+    margin: theme.spacing.unit,
+    
+  },
+  // input: {
+  //   display: 'none',
+  // },
+});
 
 const mapStateToProps = state => ({
     user: state.user,
-    url: state.squareReducer
+    url: state.squareReducer,
+    products: state.squareGetProducts
   });
 
-class AddProduct extends React.Component {
+class Checkout extends React.Component {
 
     state = {
         amount: ''
@@ -18,6 +34,10 @@ class AddProduct extends React.Component {
       
     componentDidMount() {
         this.props.dispatch({ type: USER_ACTIONS.FETCH_USER });
+        this.props.dispatch({
+          type: 'GET_PRODUCTS',
+          payload: this.state
+        });
       }
     
       componentDidUpdate() {
@@ -43,25 +63,41 @@ class AddProduct extends React.Component {
           type: 'GET_TRANSACTIONS',
           payload: this.state
         });
-    
+      }
+
+      handleCashClick = () =>{
+        console.log("click")
       }
     render() {
+      
+      const { classes } = this.props;
+      
+      let listProducts = this.props.products.map( (product) => {
+        return(
+           <div> <span>{product.item_data.name}</span> 
+           <strong>{product.item_data.variations[0].item_variation_data.price_money.amount}</strong>
+                
+           </div>
+        )
+      })
+      
         let content = null;
     
         if (this.props.user.userName) {
           content = (
             <div>
-              <h2>add product</h2>
+              <h2>Checkout</h2>
               <input type='text'
             placeholder='amount'
-            onChange={this.handleAmountChange('amount')}></input>
+            onChange={this.handleAmountChange('amount')}></input><br></br>
           {/* <input type='text'
             placeholder='absolute url'
             onChange={this.handleImgChange('image_url')}></input> */}
-
-          <button onClick={this.handleClick}>Submit</button>
-          <a href={this.props.url}> Click ME</a>
-          <pre>{JSON.stringify(this.props.url)}</pre>
+            
+          <Button variant="raised" className={classes.button} onClick={this.handleCashClick}>Cash</Button>
+          <Button variant="raised" className={classes .button} onClick={this.handleClick}>Credit</Button>
+          {listProducts}
+         
             </div>
           );
         }
@@ -76,6 +112,13 @@ class AddProduct extends React.Component {
       }   
 }
 
+Checkout.propTypes = {
+  classes: PropTypes.object.isRequired,
+};
 
   
-  export default connect(mapStateToProps)(AddProduct);
+  // export default connect(mapStateToProps)(Checkout);
+  export default compose(
+    withStyles(styles, { name: 'Checkout' }),
+    connect(mapStateToProps)
+  )(Checkout);

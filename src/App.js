@@ -11,7 +11,7 @@ import LoginPage from './components/LoginPage/LoginPage';
 import RegisterPage from './components/RegisterPage/RegisterPage';
 import UserPage from './components/UserPage/UserPage';
 import InfoPage from './components/InfoPage/InfoPage';
-import AddProduct from './components/AddProduct/AddProduct';
+import Checkout from './components/Checkout/Checkout';
 import AddLocation from './components/AddLocation/AddLocation';
 import CreateMarketDay from './components/CreateMarketDay/CreateMarketDay';
 import ActualAddProduct from './components/ActualAddProduct/ActualAddProduct';
@@ -41,8 +41,8 @@ const App = () => (
           component={InfoPage}
         />
         <Route
-          path="/AddProduct"
-          component={AddProduct}
+          path="/Checkout"
+          component={Checkout}
         />
         <Route
           path="/AddLocation"
