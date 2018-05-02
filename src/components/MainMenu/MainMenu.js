@@ -53,9 +53,11 @@ class MainMenu extends React.Component {
 
     const sideList = (
       <div className={classes.list}>
-      
+      <List>
+        Welcome {this.props.user.userName}
+      </List>
         <List> 
-        <Link to="/Checkout">
+        <Link to="/CheckoutMain">
            <h2>Checkout</h2>
           </Link>
         </List>
@@ -75,6 +77,7 @@ class MainMenu extends React.Component {
            <h2>ActualAddProduct</h2>
           </Link></List>
         <Divider />
+        
         <List>
           <h2 onClick={()=>{this.logout()}}>Logout</h2></List>
       </div>

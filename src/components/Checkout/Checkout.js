@@ -8,6 +8,8 @@ import PropTypes from 'prop-types';
 import { withStyles } from 'material-ui/styles';
 import compose from 'recompose/compose';
 import NumberFormat from 'react-number-format';
+import Cash from '../Cash/Cash';
+
 
 
 const styles = theme => ({
@@ -23,13 +25,15 @@ const styles = theme => ({
 const mapStateToProps = state => ({
     user: state.user,
     url: state.squareReducer,
-    products: state.squareGetProducts
+    products: state.squareGetProducts,
+    cashPayment: state.cashPayment,
+    show: state.showReducer
   });
 
 class Checkout extends React.Component {
 
     state = {
-        amount: 0
+        amount: 0,
       }
 
       
@@ -58,6 +62,18 @@ class Checkout extends React.Component {
       //     });
       //   }
       // }
+ cashPayment = (cash)=> {
+   
+        this.props.dispatch({
+          type: 'POST_CASH',
+          payload: cash
+        });
+        this.props.dispatch({
+          type: 'SHOW_CASH',
+          payload: this.props.show
+        });
+      }
+
       handleClick = () => {
         console.log('clicked!', this.state.amount)
         this.props.dispatch({
@@ -66,9 +82,9 @@ class Checkout extends React.Component {
         });
       }
 
-      handleCashClick = () =>{
-        console.log("click")
-      }
+      // handleCashClick = () =>{
+      //   console.log("click")
+      // }
       handlePriceClick = (price) =>{
          this.state.amount = this.state.amount + price
         console.log("click price", this.state.amount)
@@ -79,13 +95,16 @@ class Checkout extends React.Component {
 
     render() {
       
+      // if(this.state.show){
+      //   <Cash/>
+      // }
       const { classes } = this.props;
       
       let listProducts = this.props.products.map( (product) => {
         return(
            <div> <Button variant="raised" color="primary" className={classes.button} 
            onClick={()=>this.handlePriceClick(product.item_data.variations[0].item_variation_data.price_money.amount)}><div>{product.item_data.name} 
-           {(product.item_data.variations[0].item_variation_data.price_money.amount).toFixed(2)}</div>
+           {(product.item_data.variations[0].item_variation_data.price_money.amount/100).toFixed(2)}</div>
                 </Button>
            </div>
         )
@@ -97,6 +116,8 @@ class Checkout extends React.Component {
           content = (
             <div>
               <h2>Checkout</h2>
+             
+              {/* <pre>{JSON.stringify(this.props.cashPayment)}</pre> */}
               <NumberFormat value={((this.state.amount/100).toFixed(2))} displayType={'text'} 
               
               thousandSeparator={true} prefix={'$'}
@@ -105,8 +126,8 @@ class Checkout extends React.Component {
               {/* <input type='text'
             placeholder='amount'
             onChange={this.handleAmountChange('amount')}></input><br></br> */}
-          <Button variant="raised" className={classes.button} onClick={this.handleCashClick}>Cash</Button>
-          <Button variant="raised" className={classes .button} onClick={this.handleClick}>Credit</Button>
+          <Button variant="raised" className={classes.button} onClick={()=>this.cashPayment(this.state.amount)}>Cash</Button>
+          <Button variant="raised" className={classes.button} onClick={this.handleClick}>Credit</Button>
           {listProducts}
          
             </div>
@@ -115,7 +136,7 @@ class Checkout extends React.Component {
     
         return (
           <div>
-            <Nav />
+           
             { content }
         
           </div>

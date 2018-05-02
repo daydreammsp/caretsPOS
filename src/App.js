@@ -15,6 +15,8 @@ import Checkout from './components/Checkout/Checkout';
 import AddLocation from './components/AddLocation/AddLocation';
 import CreateMarketDay from './components/CreateMarketDay/CreateMarketDay';
 import ActualAddProduct from './components/ActualAddProduct/ActualAddProduct';
+import Cash from './components/Cash/Cash';
+import CheckoutMain from './components/CheckoutMain/CheckoutMain';
 import './styles/main.css';
 
 const App = () => (
@@ -41,8 +43,8 @@ const App = () => (
           component={InfoPage}
         />
         <Route
-          path="/Checkout"
-          component={Checkout}
+          path="/CheckoutMain"
+          component={CheckoutMain}
         />
         <Route
           path="/AddLocation"
@@ -55,6 +57,10 @@ const App = () => (
         <Route
           path="/ActualAddProduct"
           component={ActualAddProduct}
+        />
+        <Route
+          path="/Cash"
+          component={Cash}
         />
         {/* OTHERWISE (no path!) */}
         <Route render={() => <h1>404</h1>} />
