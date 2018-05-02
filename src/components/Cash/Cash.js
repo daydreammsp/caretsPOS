@@ -29,7 +29,9 @@ const mapStateToProps = state => ({
 class Cash extends React.Component {
 constructor(props){
     super(props)
-    
+    this.state = {
+      cashVal: 0
+    }
     
    
 }
@@ -51,17 +53,44 @@ showClick = ()=>{
     payload: this.props.show
   });
 }
-  
+
+
+handleProductInput = (inputText) => {
+  return (event) => {
+    console.log(inputText)
+    this.setState({
+      [inputText]: event.target.value
+    });
+  }
+}
+  changeAmount = (amount) => {
+    console.log("click change amount")
+    this.setState({
+      cashVal: amount
+    })
+  }
   render() {
-    
+    let changeDue = this.state.cashVal - (this.props.cashPayment/100)
       let content = null;
   
       if (this.props.user.userName) {
         content = (
           <div>
             <h2>Cash stringify</h2>
-            <pre>{JSON.stringify(this.props.cashPayment)}</pre>
-            <Button onClick={()=>this.showClick()}>Return</Button>
+            <input type='text'
+            value={this.state.cashVal}
+            placeholder='product'
+            onChange={this.handleProductInput('product')}></input>
+            <pre>{JSON.stringify(this.props.cashPayment/100)}</pre>
+            <Button onClick={()=>this.showClick()}>Submit</Button>
+            <h3>Change Due</h3>
+            <h1>{changeDue}</h1>
+            <Button onClick={()=>this.changeAmount(10)}>10 Dollars</Button>
+            <Button onClick={()=>this.changeAmount(20)}>20 Dollars</Button>
+            <Button onClick={()=>this.changeAmount(40)}>40 Dollars</Button>
+            <Button onClick={()=>this.changeAmount(50)}>50 Dollars</Button>
+            <Button onClick={()=>this.changeAmount(100)}>100 Dollars</Button>
+            
           </div>
         );
       }
